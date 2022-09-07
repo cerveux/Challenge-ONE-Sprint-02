@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="imagenes/Vector.png" />
+    <link rel="stylesheet" href="styles/reset.css" />
+    <link rel="stylesheet" href="styles/styles.css" />
+    <title>Ahorcado</title>
+  </head>
+  <body>
+    <header>
+      <img class="logo" src="imagenes/Vector.png" alt="" />
+    </header>
+    <main>
+      <div class="app-container">
+        <div class="pantalla inicio">
+          <!-- para ir haciendo las pantallas -->
+          <button class="btn-start">Iniciar juego</button>
+          <button class="btn-add">Agregar nueva palabra</button>
+        </div>
+
+        <div class="pantalla add atras">
+          <div class="button-container">
+            <button class="btn blue">Guardar y empezar</button>
+            <button class="btn grey">Cancelar</button>
+          </div>
+        </div>
+
+        <div class="pantalla game atras" >
+            <div class="ahorcado-container">
+                <canvas id="myCanvas" class="ahorcado" width="294px" height="360px"></canvas>
+                <!-- <div class="ahorcado">
+                    <img src="imagenes/muñeco/Ellipse 9 (Stroke).png" class="img-5" alt="">
+                    <img src="imagenes/muñeco/Rectangle 14.png" class="img-1" alt="">
+                    <img src="imagenes/muñeco/Rectangle 15.png" class="img-2" alt="">
+                    <img src="imagenes/muñeco/Rectangle 16.png" class="img-3" alt="">
+                    <img src="imagenes/muñeco/Rectangle 17.png" class="img-4" alt="">
+                    <img src="imagenes/muñeco/Rectangle 18.png" class="img-6" alt="">
+                    <img src="imagenes/muñeco/Rectangle 19.png" class="img-7" alt="">
+                    <img src="imagenes/muñeco/Rectangle 20.png" class="img-8" alt="">
+                    <img src="imagenes/muñeco/Rectangle 21.png" class="img-9" alt="">
+                    <img src="imagenes/muñeco/Rectangle 22.png" class="img-10" alt="">
+                </div> -->
+                <div class="letras">
+                    <!-- <div class="letra">A</div>
+                    <div class="letra">B</div>
+                    <div class="letra">C</div>
+                    <div class="letra">D</div>
+                    <div class="letra">E</div>
+                    <div class="letra">F</div>
+                    <div class="letra">G</div> -->
+                    <!-- <div class="letra n-10" id="prueba">H</div> -->
+                </div>
+                <div class="errores"></div>
+
+            </div>
+            <div class="button-container-2">
+                <button class="btn blue new-game">Nuevo juego</button>
+                <button class="btn grey">Desistir</button>
+              </div>
+            
+
+            </div>
+            
+        </div>
+      </div>
+    </main>
+    <footer>
+      <a
+        target="_blank"
+        class="gh-link"
+        href="https://www.linkedin.com/in/diego-guzm%C3%A1n-cerveux/"
+      >
+        <img class="gh-img" src="imagenes/li/linkedin.png" alt="" />
+      </a>
+      <a target="_blank" class="gh-link" href="https://github.com/cerveux">
+        <img
+          class="gh-img"
+          src="imagenes/git/GitHub-Mark-120px-plus.png"
+          alt=""
+        />
+      </a>
+    </footer>
+  </body>
+  <script src="app.js"></script>
+</html>

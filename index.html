@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="imagenes/Vector.png" />
+    <link rel="stylesheet" href="styles/reset.css" />
+    <link rel="stylesheet" href="styles/styles.css" />
+    <title>Ahorcado</title>
+  </head>
+  <body>
+    <div class="mensaje"></div>
+    <header>
+      <img class="logo" src="imagenes/Vector.png" alt="" />
+    </header>
+    <main>
+      <div class="app-container">
+        <div class="pantalla inicio">
+          <!-- para ir haciendo las pantallas -->
+          <button class="btn-start" onclick="inicio()">Iniciar juego</button>
+          <button class="btn-add" onclick="palabra()">Agregar nueva palabra</button>
+        </div>
+
+        <div class="pantalla add atras">
+          <textarea
+              name=""
+              class="ingreso"
+              id=""
+              placeholder="Ingrese el texto aquí" 
+              oninput="this.value = this.value.toUpperCase()"
+              
+            ></textarea>
+            <div class="alerta">
+              <img class="image-alerta" src="imagenes/alert.png" alt="" />
+              <p class="mensaje-alerta">Min 3 letras y Máx. de 8 letras</p>
+            </div>
+          <div class="button-container">
+            
+            <button class="btn blue" onclick="guardarPalabra()">Guardar y empezar</button>
+            <button class="btn grey" onclick="cancelarNueva()">Cancelar</button>
+          </div>
+        </div>
+
+        <div class="pantalla game atras" >
+            <div class="ahorcado-container">
+                <canvas id="myCanvas" class="ahorcado" width="294px" height="360px"></canvas>
+                <div class="letras"></div>
+                <div class="errores">
+                  <textarea class="mostrar-errores" id=""></textarea>
+                </div>
+
+            </div>
+            <div class="button-container-2">
+                <button class="btn blue new-game">Nuevo juego</button>
+                <button class="btn grey desistir" >Desistir</button>
+              </div>
+            
+
+            </div>
+        
+
+        </div>
+        
+            
+        </div>
+      </div>
+    </main>
+    <footer>
+      <a
+        target="_blank"
+        class="gh-link"
+        href="https://www.linkedin.com/in/diego-guzm%C3%A1n-cerveux/"
+      >
+        <img class="gh-img" src="imagenes/li/linkedin.png" alt="" />
+      </a>
+      <a target="_blank" class="gh-link" href="https://github.com/cerveux">
+        <img
+          class="gh-img"
+          src="imagenes/git/GitHub-Mark-120px-plus.png"
+          alt=""
+        />
+      </a>
+    </footer>
+  </body>
+  <script src="app.js"></script>
+</html>
