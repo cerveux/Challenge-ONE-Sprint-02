@@ -11,6 +11,10 @@
   </head>
   <body>
     <div class="mensaje"></div>
+    <div class="fondo">
+      
+
+    </div>
     <header>
       <img class="logo" src="imagenes/Vector.png" alt="" />
     </header>
@@ -18,8 +22,8 @@
       <div class="app-container">
         <div class="pantalla inicio">
           <!-- para ir haciendo las pantallas -->
-          <button class="btn-start" onclick="inicio()">Iniciar juego</button>
-          <button class="btn-add" onclick="palabra()">Agregar nueva palabra</button>
+          <button class="btn-start" onclick="funciones.inicio()">Iniciar juego</button>
+          <button class="btn-add" onclick="funciones.palabra()">Agregar nueva palabra</button>
         </div>
 
         <div class="pantalla add atras">
@@ -37,18 +41,21 @@
             </div>
           <div class="button-container">
             
-            <button class="btn blue" onclick="guardarPalabra()">Guardar y empezar</button>
-            <button class="btn grey" onclick="cancelarNueva()">Cancelar</button>
+            <button class="btn blue" onclick="funciones.guardarPalabra()">Guardar y empezar</button>
+            <button class="btn grey" onclick="funciones.cancelarNueva()">Cancelar</button>
           </div>
         </div>
 
         <div class="pantalla game atras" >
             <div class="ahorcado-container">
                 <canvas id="myCanvas" class="ahorcado" width="294px" height="360px"></canvas>
-                <div class="letras"></div>
+                <div class="intentos">
+                  <div class="letras"></div>
                 <div class="errores">
-                  <textarea class="mostrar-errores" id=""></textarea>
+                  <textarea class="mostrar-errores" id="" readonly></textarea>
                 </div>
+                </div>
+                
 
             </div>
             <div class="button-container-2">
@@ -80,8 +87,11 @@
           src="imagenes/git/GitHub-Mark-120px-plus.png"
           alt=""
         />
-      </a>
+      </a>      
+      
     </footer>
+    
+    
   </body>
   <script src="app.js"></script>
 </html>

@@ -1,81 +1,198 @@
-var pantalla = document.querySelector("canvas");
-var pincel = pantalla.getContext("2d");
-
-var menu = document.querySelector(".inicio");
-var game = document.querySelector(".game");
-var agregarPalabra = document.querySelector(".add");
-
-
-/* var btnAdd = document.querySelector(".btn-add"); */
-
-var btnDesistir = document.querySelector(".desistir");
-
-
-
-var letras = document.querySelector(".letras");
-
-var arr = ["PALABRA", "SECRETA", "TELEFONO", "PROGRAMA", "MANCO"];
-
-var palabraSecreta = "";
-
-var btnNuevoJuego = document.querySelector(".new-game");
-
-const erroresArea = document.querySelector(".mostrar-errores");
-
-var cantLetras = 0;
-const errores = [];
-
-var juego = false;
-
-var regEx = /[A-ZÑ]/;
-
-const letrasCorrectas = [];
-
+const pantalla = document.querySelector("canvas");
+const pincel = pantalla.getContext("2d");
 pincel.fillStyle = "rgba(116, 114, 114, 0.6)";
 pincel.fillRect(0, 0, 294, 360);
 
-function inicio() {
+const arr = ["PALABRA", "SECRETA", "TELEFONO", "PROGRAMA", "MANCO"];
+
+var palabraSecreta = "";
+var cantLetras = 0;
+const letrasCorrectas = [];
+const errores = [];
+var juego = false;
+var regEx = /[A-ZÑ]/;
+
+const dom = {
+  menu: document.querySelector(".inicio"),
+  game: document.querySelector(".game"),
+  agregarPalabra: document.querySelector(".add"),
+  btnDesistir: document.querySelector(".desistir"),
+  letras: document.querySelector(".letras"),
+  btnNuevoJuego: document.querySelector(".new-game"),
+  erroresArea: document.querySelector(".mostrar-errores"),
+  mensaje: document.querySelector(".alerta")
+};
+
+const funciones = {
+  inicio: () => {
     juego = true;
-  menu.classList.add("atras");
-  game.classList.remove("atras");
+    dom.menu.classList.add("atras");
+    dom.game.classList.remove("atras");
 
-  escogerPalabra();
-  agregarLetras();
+    funciones.escogerPalabra();
+    funciones.agregarLetras();
 
-  
-  btnDesistir.onclick = reiniciar;
-  btnNuevoJuego.onclick = nuevoJuego;
-}
-
-function nuevoJuego() {
+    dom.btnDesistir.onclick = funciones.reiniciar;
+    dom.btnNuevoJuego.onclick = funciones.nuevoJuego;
+  },
+  nuevoJuego: ()=>{
     juego = true;
     document.querySelector(".mensaje").innerHTML = "";
-  letras.innerHTML = "";
-  pincel.clearRect(0, 0, 294, 360);
-  pincel.fillStyle = "rgba(116, 114, 114, 0.6)";
-  pincel.fillRect(0, 0, 294, 360);
-  erroresArea.innerHTML = "";
-  letrasCorrectas.splice(0, 10);
-  errores.splice(0, 10);
-  escogerPalabra();
-  agregarLetras();
-
-
-    
-}
-
-function agregarLetras() {
+    dom.letras.innerHTML = "";
+    pincel.clearRect(0, 0, 294, 360);
+    pincel.fillStyle = "rgba(116, 114, 114, 0.6)";
+    pincel.fillRect(0, 0, 294, 360);
+    dom.erroresArea.innerHTML = "";
+    letrasCorrectas.splice(0, 10);
+    errores.splice(0, 10);
+    funciones.escogerPalabra();
+    funciones.agregarLetras();
+  },
+  agregarLetras: ()=>{
     for (var i = 1; i <= palabraSecreta.length; i++) {
-        var newDiv = document.createElement("div");
-        letras.appendChild(newDiv);
-        newDiv.classList.add("letra");
-        newDiv.classList.add(`n-${i}`);
-        newDiv.id = `n-${i}`;
+      var newDiv = document.createElement("div");
+      dom.letras.appendChild(newDiv);
+      newDiv.classList.add("letra");
+      newDiv.classList.add(`n-${i}`);
+      newDiv.id = `n-${i}`;
+    }
+  },
+  escogerPalabra: ()=>{
+    palabraSecreta = arr[Math.floor(Math.random() * arr.length)];
+    cantLetras = palabraSecreta.length;
+  },
+  teclaPresionada: (e)=>{
+    if (juego) {
+      e = e || window.event;
+      var intento = e.key.toUpperCase();
+      if (errores.length !== 10 && palabraSecreta !== "" && cantLetras !== 0) {
+        if (
+          ((e.keyCode >= 65 && e.keyCode <= 90) || e.keyCode == 192) &&
+          regEx.test(intento)
+        ) {
+          if (
+            palabraSecreta.includes(intento) &&
+            letrasCorrectas.includes(intento) === false
+          ) {
+            letrasCorrectas.push(intento);
+            funciones.intentoCorrecto(intento);
+          } else if (
+            errores.includes(intento) === false &&
+            palabraSecreta.includes(intento) === false
+          ) {
+            errores.push(intento);
+            funciones.intentoIncorrecto(intento);
+          }
+        }
       }
-    
-}
+    }
+  },
+  intentoCorrecto: (intento)=>{
+    for (var i = 0; i < palabraSecreta.length; i++) {
+      if (palabraSecreta[i] === intento) {
+        document.getElementById(`n-${i + 1}`).innerHTML = intento;
+        cantLetras--;
+      }
+    }
+  
+    cantLetras === 0 && funciones.cartel("Ganaste, felicidades!!!", "green");
+  },
+  intentoIncorrecto: (intento)=>{
+    dom.erroresArea.innerHTML = errores.join(" - ");
+    switch (errores.length) {
+      case 1:
+        dibujar.piso();
+        break;
+      case 2:
+        dibujar.poste();
+        break;
+      case 3:
+        dibujar.travesa();
+        break;
+      case 4:
+        dibujar.cuerda();
+        break;
+      case 5:
+        dibujar.cabeza();
+        break;
+      case 6:
+        dibujar.cuerpo();
+        break;
+      case 7:
+        dibujar.brazoI();
+        break;
+      case 8:
+        dibujar.brazoD();
+        break;
+      case 9:
+        dibujar.piernaI();
+        break;
+      case 10:
+        dibujar.piernaD();
+        funciones.cartel(`Perdiste =( la palabra era ${palabraSecreta}`, "red");
+  
+        break;
+  
+      default:
+        break;
+    }
+  },
+  cartel: (mensaje, color)=>{
+    const plantilla = `<div class="mascara" onclick="funciones.reiniciar()"><div class="modal"  style="color: ${color};">${mensaje}</div></div>`;
+    document.querySelector(".mensaje").innerHTML = plantilla;
+  },
+  reiniciar: ()=>{
+    juego = false;
+    document.querySelector(".mensaje").innerHTML = "";
+    dom.letras.innerHTML = "";
+    pincel.clearRect(0, 0, 294, 360);
+    pincel.fillStyle = "rgba(116, 114, 114, 0.6)";
+    pincel.fillRect(0, 0, 294, 360);
+    dom.erroresArea.innerHTML = "";
+    dom.game.classList.add("atras");
+    dom.menu.classList.remove("atras");
+    letrasCorrectas.splice(0, 10);
+    errores.splice(0, 10);
+  },
+  palabra:()=>{
+    dom.menu.classList.add("atras");
+    dom.agregarPalabra.classList.remove("atras");
+  },
+  cancelarNueva:()=>{
+    var textarea = document.querySelector(".ingreso");
+    textarea.value = "";
+    dom.agregarPalabra.classList.add("atras");
+    dom.menu.classList.remove("atras");
+  },
+  guardarPalabra:()=> {
+    var textarea = document.querySelector(".ingreso");
+    if (textarea.value.length <= 8 && textarea.value.length > 3) {
+      arr.push(textarea.value);
+      textarea.value = "";
+      funciones.palabraAnadida("Palabra añadida", "#0a3871");
+    } else {
+      funciones.alerta();
+    }
+  },
+  alerta:()=> {
+    dom.mensaje.classList.add("accion");
+    setTimeout(() => dom.mensaje.classList.remove("accion"), 1000);
+  },
+  palabraAnadida: (mensaje, color)=>{
+    const plantilla = `<div class="mascara" onclick="funciones.agregarIniciar()"><div class="modal"  style="color: ${color};">${mensaje}</div></div>`;
+    document.querySelector(".mensaje").innerHTML = plantilla;
+  },
+  agregarIniciar: ()=>{
+    dom.agregarPalabra.classList.add("atras");
+    document.querySelector(".mensaje").innerHTML = "";
+  
+    funciones.inicio();
+  }
+  
+};
 
-var dibujar = {
+
+const dibujar = {
   piso: () => {
     pincel.fillStyle = "#0a3871"; //piso
     pincel.fillRect(0, 355, 294, 5);
@@ -160,163 +277,4 @@ var dibujar = {
   },
 };
 
-function escogerPalabra() {
-  palabraSecreta = arr[Math.floor(Math.random() * arr.length)];
-  cantLetras = palabraSecreta.length;
-}
-
-function teclaPresionada(e) {
-    if(juego){
-        e = e || window.event;
-        var intento = e.key.toUpperCase();
-        if (errores.length !== 10 && palabraSecreta !== "" && cantLetras !== 0) {
-          if (
-            ((e.keyCode >= 65 && e.keyCode <= 90) || e.keyCode == 192) &&
-            regEx.test(intento)
-          ) {
-            if (
-              palabraSecreta.includes(intento) &&
-              letrasCorrectas.includes(intento) === false
-            ) {
-              letrasCorrectas.push(intento);
-              intentoCorrecto(intento);
-            } else if (
-              errores.includes(intento) === false &&
-              palabraSecreta.includes(intento) === false
-            ) {
-              errores.push(intento);
-              intentoIncorrecto(intento);
-            }
-          }
-        }
-
-    }
-
-
- 
-}
-
-function intentoCorrecto(intento) {
-  for (var i = 0; i < palabraSecreta.length; i++) {
-    if (palabraSecreta[i] === intento) {
-      document.getElementById(`n-${i + 1}`).innerHTML = intento;
-      cantLetras--;
-    }
-  }
-
-  cantLetras === 0 && cartel("Ganaste, felicidades!!!", "green");
-}
-
-function intentoIncorrecto(intento) {
-  erroresArea.innerHTML = errores.join(" - ");
-  switch (errores.length) {
-    case 1:
-      dibujar.piso();
-      break;
-    case 2:
-      dibujar.poste();
-      break;
-    case 3:
-      dibujar.travesa();
-      break;
-    case 4:
-      dibujar.cuerda();
-      break;
-    case 5:
-      dibujar.cabeza();
-      break;
-    case 6:
-      dibujar.cuerpo();
-      break;
-    case 7:
-      dibujar.brazoI();
-      break;
-    case 8:
-      dibujar.brazoD();
-      break;
-    case 9:
-      dibujar.piernaI();
-      break;
-    case 10:
-      dibujar.piernaD();
-      cartel(`Perdiste =( la palabra era ${palabraSecreta}`, "red");
-
-      break;
-
-    default:
-      break;
-  }
-}
-
-function cartel(mensaje, color) {
-  const plantilla = `<div class="mascara" onclick="reiniciar()"><div class="modal"  style="color: ${color};">${mensaje}</div></div>`;
-  document.querySelector(".mensaje").innerHTML = plantilla;
-}
-
-
-
-function reiniciar() {
-    juego = false;
-  document.querySelector(".mensaje").innerHTML = "";
-  letras.innerHTML = "";
-  pincel.clearRect(0, 0, 294, 360);
-  pincel.fillStyle = "rgba(116, 114, 114, 0.6)";
-  pincel.fillRect(0, 0, 294, 360);
-  erroresArea.innerHTML = "";
-  game.classList.add("atras");
-  menu.classList.remove("atras");
-  letrasCorrectas.splice(0, 10);
-  errores.splice(0, 10);
-}
-
-
-/* btnAdd.onclick = () => {}; */
-
-
-
-
-
-function palabra() {
-    menu.classList.add("atras");
-    agregarPalabra.classList.remove("atras");    
-}
-
-function cancelarNueva() {
-    var textarea = document.querySelector(".ingreso");
-    textarea.value = "";    
-    agregarPalabra.classList.add("atras");
-    menu.classList.remove("atras");    
-    
-}
-
-function guardarPalabra(){
-    var textarea = document.querySelector(".ingreso");   
-    if(textarea.value.length <= 8 && textarea.value.length > 3){
-        arr.push(textarea.value);
-        textarea.value = "";
-        palabraAnadida("Palabra añadida", "#0a3871");
-    } else{
-        alerta();
-    } 
-}
-
-function alerta() {
-    var alerta = document.querySelector(".alerta")
-    alerta.classList.add("accion");
-    setTimeout(() => alerta.classList.remove("accion"), 1000);    
-}
-
-function palabraAnadida(mensaje, color) {
-    const plantilla = `<div class="mascara" onclick="agregarIniciar()"><div class="modal"  style="color: ${color};">${mensaje}</div></div>`;
-    document.querySelector(".mensaje").innerHTML = plantilla;
-  }
-
-  function agregarIniciar() {
-    agregarPalabra.classList.add("atras");
-    document.querySelector(".mensaje").innerHTML = "";
-
-    inicio();
-  }
-
-
-  document.onkeydown = teclaPresionada;
+document.onkeydown = funciones.teclaPresionada;
